@@ -12,7 +12,7 @@ source:
     - 0000-mem_size_windows.patch  # [win]
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
