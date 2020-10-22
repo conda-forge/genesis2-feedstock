@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
-INSTALL_DIR=${PREFIX}/bin
+mkdir build
+cd build
 
-make single
-COMPILER=$GFORTRAN make
+cmake \
+    -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+    -DUSE_MPI=OFF \
+    ..
 
-mkdir -p ${INSTALL_DIR}
-cp genesis2 ${INSTALL_DIR}
+make -j${CPU_COUNT} install
 
