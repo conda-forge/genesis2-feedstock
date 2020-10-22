@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
 
-mpi_arg="OFF"
-if [[ "$mpi" != "nompi" ]]; then
-  mpi_arg="ON"
-fi
-
 mkdir build
 cd build
 
 cmake \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
-    -DUSE_MPI=${mpi_arg} \
+    -DUSE_MPI=OFF \
     ..
 
 make -j${CPU_COUNT} install
 
+if [[ "$mpi" != "nompi" ]]; then
+     cd ..
+     mkdir build_mpi
+     cd build_mpi
+     cmake \
+         -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+         -DUSE_MPI=ON \
+         ..
+
+     make -j${CPU_COUNT} install
+fi
