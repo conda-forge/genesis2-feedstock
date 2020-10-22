@@ -2,7 +2,7 @@ mkdir build
 cd build
 
 cmake -G "MinGW Makefiles" ^
-    -D CMAKE_INSTALL_PREFIX="%LIBRARY_PREFIX%"
+    -D CMAKE_INSTALL_PREFIX="%LIBRARY_PREFIX%" ^
     ..
 if errorlevel 1 exit 1
 
