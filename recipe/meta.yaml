@@ -1,5 +1,14 @@
 {% set name = "genesis2" %}
-{% set version = "2.2" %}
+{% set version = "2.3" %}
+
+{% set build = 1000 %}
+# ensure mpi is defined (needed for conda-smithy recipe-lint)
+{% set mpi = mpi or 'nompi' %}
+
+{% if mpi == 'nompi' %}
+# prioritize nompi variant via build number
+{% set build = build + 100 %}
+{% endif %}
 
 package:
   name: {{ name|lower }}
@@ -7,10 +16,30 @@ package:
 
 source:
   url: https://github.com/slaclab/Genesis-1.3-Version2/archive/v{{ version }}.tar.gz
-  sha256: e807933ef5c3fa31a4f92158277c8973b1e9ea44e4275f269134dd353784abe3
+  sha256: a5f8ef65cc224a7428d38e291c7a03cdd08e4690ad01831758e2f864e9e7270a
 
 build:
-  number: 0
+  number: {{ build }}
+
+  # add build string so packages can depend on
+  # mpi or nompi variants explicitly:
+  # `pkg * mpi_mpich_*` for mpich
+  # `pkg * mpi_*` for any mpi
+  # `pkg * nompi_*` for no mpi
+
+  {% if mpi != 'nompi' %}
+  {% set mpi_prefix = "mpi_" + mpi %}
+  {% else %}
+  {% set mpi_prefix = "nompi" %}
+  {% endif %}
+  string: "{{ mpi_prefix }}_h{{ PKG_HASH }}_{{ build }}"
+
+  {% if mpi != 'nompi' %}
+
+  run_exports:
+    - {{ name }} * {{ mpi_prefix }}_*
+  {% endif %}
+
 
 requirements:
   build:
@@ -20,12 +49,16 @@ requirements:
     - {{ compiler('fortran') }}              # [not win]
     - {{ compiler('m2w64_fortran') }}        # [win]
     - cmake
+    - {{ mpi }}  # [mpi != 'nompi']
   host:
   run:
+    - {{ mpi }}  # [mpi != 'nompi']
 
 test:
   commands:
-    - genesis2
+    - which genesis2  # [unix]
+    - which genesis2-mpi  # [unix and mpi != 'nompi']
+    - genesis2   # [win]
 
 about:
   home: hhttps://github.com/slaclab/Genesis-1.3-Version
