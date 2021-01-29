@@ -50,7 +50,6 @@ requirements:
     - {{ compiler('m2w64_fortran') }}        # [win]
     - cmake
     - {{ mpi }}  # [mpi != 'nompi']
-    - mpich-mpicc  # [mpi == 'mpich']
   host:
   run:
     - {{ mpi }}  # [mpi != 'nompi']
