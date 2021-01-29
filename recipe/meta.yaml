@@ -50,10 +50,12 @@ requirements:
     - {{ compiler('fortran') }}              # [not win]
     - {{ compiler('m2w64_fortran') }}        # [win]
     - cmake
-    - {{ mpi }}  # [mpi != 'nompi']
+    - mpich == 3.3.2  # [mpi == 'mpich']
+    - openmpi  # [mpi == 'openmpi']
   host:
   run:
-    - {{ mpi }}  # [mpi != 'nompi']
+    - mpich == 3.3.2  # [mpi == 'mpich']
+    - openmpi  # [mpi == 'openmpi']
 
 test:
   commands:
