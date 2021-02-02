@@ -48,7 +48,7 @@ requirements:
     - {{ compiler('m2w64_c') }}              # [win]
     - {{ compiler('fortran') }}              # [not win]
     - {{ compiler('m2w64_fortran') }}        # [win]
-    - cmake ==3.18
+    - cmake
     - {{ mpi }}  # [mpi != 'nompi']
   host:
   run:
