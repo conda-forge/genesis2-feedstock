@@ -48,12 +48,12 @@ requirements:
     - {{ compiler('m2w64_c') }}              # [win]
     - {{ compiler('fortran') }}              # [not win]
     - {{ compiler('m2w64_fortran') }}        # [win]
-    - cmake =3.19.4
-    - openmpi                                 # [build_platform != target_platform]
+    - cmake
+    - openmpi                                # [build_platform != target_platform]
   host:
-    - {{ mpi }}
+    - {{ mpi }}   # [mpi != 'nompi']
   run:
-    - {{ mpi }}
+    - {{ mpi }}   # [mpi != 'nompi']
 
 
 test:
