@@ -28,7 +28,9 @@ if [[ "$mpi" != "nompi" ]]; then
     	 ${CMAKE_ARGS} \
          -DCMAKE_INSTALL_PREFIX=${PREFIX} \
          -DUSE_MPI=ON \
-         ..
+         .. || \
+     { cat $SRC_DIR/build_mpi/CMakeFiles/CMakeOutput.log; \
+       cat $SRC_DIR/build_mpi/CMakeFiles/CMakeError.log; exit 1; }
 
      make -j${CPU_COUNT} install
 fi
