@@ -13,6 +13,7 @@ mkdir build
 cd build
 
 cmake \
+    ${CMAKE_ARGS} \
     -DCMAKE_INSTALL_PREFIX=${PREFIX} \
     -DUSE_MPI=OFF \
     ..
@@ -24,6 +25,7 @@ if [[ "$mpi" != "nompi" ]]; then
      mkdir build_mpi
      cd build_mpi
      cmake \
+    	 ${CMAKE_ARGS} \
          -DCMAKE_INSTALL_PREFIX=${PREFIX} \
          -DUSE_MPI=ON \
          ..
