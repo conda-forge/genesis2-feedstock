@@ -1,7 +1,7 @@
 {% set name = "genesis2" %}
 {% set version = "2.6" %}
 
-{% set build = 1 %}
+{% set build = 2 %}
 # ensure mpi is defined (needed for conda-smithy recipe-lint)
 {% set mpi = mpi or 'nompi' %}
 
@@ -45,7 +45,9 @@ requirements:
   build:
     - make
     - {{ compiler('c') }}                    # [not win]
+    - {{ stdlib("c") }}                      # [not win]
     - {{ compiler('m2w64_c') }}              # [win]
+    - {{ stdlib("m2w64_c") }}                # [win]
     - {{ compiler('fortran') }}              # [not win]
     - {{ compiler('m2w64_fortran') }}        # [win]
     - cmake
